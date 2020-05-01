@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.solucaomobile.curso.domain.Categoria;
+import com.solucaomobile.curso.dto.CategoriaDTO;
 import com.solucaomobile.curso.repositories.CategoriaRepository;
 import com.solucaomobile.curso.services.exceptions.ObjectNotFoundException;
 
@@ -20,11 +21,13 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo;
 	private PageRequest PageRequest;
+	private Object objDto;
 	
 	public Categoria find(Integer id) {  
 		Optional<Categoria> obj = repo.findById(id);  
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto não encontrado! Id:" + id + ", Tipo: " + Categoria.class.getName())); 
+				"Objeto não encontrado! Id:" + id +
+				", Tipo: " + Categoria.class.getName())); 
 	}
 
 	public Categoria buscar(Integer id) {
@@ -62,5 +65,18 @@ public class CategoriaService {
 		PageRequest = org.springframework.data.domain.PageRequest.of (page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(PageRequest);
 		
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+		
+	}
+
+	public Object getObjDto() {
+		return objDto;
+	}
+
+	public void setObjDto(Object objDto) {
+		this.objDto = objDto;
 	}
 }
