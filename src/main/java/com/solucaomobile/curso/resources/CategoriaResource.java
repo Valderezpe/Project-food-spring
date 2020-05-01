@@ -44,6 +44,7 @@ public class CategoriaResource {
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
+	
 	@RequestMapping(value= "/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody CategoriaDTO objDto, @PathVariable Integer id ){
 		Categoria obj= service.fromDTO(objDto);
